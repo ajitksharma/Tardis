@@ -12,6 +12,7 @@ import {
   View
 } from 'react-native';
 
+
 type Props = {};
 
 export default class Login extends Component<Props> {
@@ -19,7 +20,36 @@ export default class Login extends Component<Props> {
     super(props);
     this.state = {username: '', password: ''};
   }
+  loginFunction = (propNavigate) =>{
+   // alert("Username or Password incorrect !"+this.state.username+"and"+this.state.password);
+    if (this.state.username =="" || this.state.password =="" )
+    {
+      alert("Username or Password incorrect !");
 
+    }
+    else
+    {
+    var url="http://10.0.2.2:3000/login";
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjbGllbnRfaWQiOiJjbGllbnRfaWQiLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwicGFzc3dvcmQiOiJwYXNzd29yZCJ9.Apw1vCdXsn5pvle-jIsjvf5i-NOW2bGp3BfuPR-gZWc',
+    }).then((response) => {
+       if(response.status){
+        propNavigate.navigation.navigate('KeyFobScreen');
+       }
+       else{
+         alert("Something went wrong !");
+       }
+      })
+      .catch((error) => {
+        alert("Server Error !"+error);
+      });    
+    }
+   // propNavigate.navigation.navigate('KeyFobScreen');
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -33,6 +63,7 @@ export default class Login extends Component<Props> {
         </View>
         <View style={styles.rowContainer}>
           <TextInput
+            secureTextEntry={true}
             style={styles.textField}
             placeholder={'password'}
             onChangeText={(text) => {this.setState((previous) => ({...previous, password: text}))}}
@@ -41,7 +72,7 @@ export default class Login extends Component<Props> {
         <View style={styles.rowContainer}>
           <TouchableOpacity
             style={styles.submit}
-            onPress={() => {}}
+            onPress={() => {this.loginFunction(this.props)}}
             disabled={false}>
             <Text style={styles.text}>Submit</Text>
           </TouchableOpacity>

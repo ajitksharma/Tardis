@@ -4,20 +4,26 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import Login from './components/Login/index';
+import KeyFob from './components/KeyFob/index';
 
 type Props = {};
+
+
 
 export default class App extends Component<Props> {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.instructions}>
-          Welcome to the TARDIS coding exercise! Please read the README.md for more instructions what to implement.
-        </Text>
-      </View>
+      <AppNavigator/>
     );
   }
 }
+
+const AppNavigator = StackNavigator({
+  LoginScreen: { screen: Login },
+  KeyFobScreen: { screen: KeyFob},
+},{headerMode: "none"});
 
 const styles = StyleSheet.create({
   container: {
