@@ -11,24 +11,28 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-
+import Loader from '../Util/Loader'
 
 type Props = {};
 
 export default class Login extends Component<Props> {
   constructor(props) {
     super(props);
-    this.state = {username: '', password: ''};
+    this.state = {username: '', password: '',loading: false};
   }
   loginFunction = (propNavigate) =>{
    // alert("Username or Password incorrect !"+this.state.username+"and"+this.state.password);
-    if (this.state.username =="" || this.state.password =="" )
+    
+    if (this.state.username == "" || this.state.password == "" )
     {
       alert("Username or Password incorrect !");
 
     }
     else
     {
+    this.setState({
+      loading: true,
+    });
     var url="http://10.0.2.2:3000/login";
     fetch(url, {
       method: 'POST',
@@ -38,13 +42,22 @@ export default class Login extends Component<Props> {
       body:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjbGllbnRfaWQiOiJjbGllbnRfaWQiLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwicGFzc3dvcmQiOiJwYXNzd29yZCJ9.Apw1vCdXsn5pvle-jIsjvf5i-NOW2bGp3BfuPR-gZWc',
     }).then((response) => {
        if(response.status){
+        this.setState({
+          loading: false,
+        });
         propNavigate.navigation.navigate('KeyFobScreen');
        }
        else{
+        this.setState({
+          loading: false,
+        });
          alert("Something went wrong !");
        }
       })
       .catch((error) => {
+        this.setState({
+          loading: false,
+        });
         alert("Server Error !"+error);
       });    
     }
@@ -77,6 +90,8 @@ export default class Login extends Component<Props> {
             <Text style={styles.text}>Submit</Text>
           </TouchableOpacity>
         </View>
+        <Loader
+          loading={this.state.loading} />
       </View>
     );
   }
