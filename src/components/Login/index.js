@@ -9,7 +9,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
+  KeyboardAvoidingView
 } from 'react-native';
 import Loader from '../Util/Loader'
 
@@ -20,6 +21,8 @@ export default class Login extends Component<Props> {
     super(props);
     this.state = {username: '', password: '',loading: false};
   }
+  static navigationOptions = { header: null }
+
   loginFunction = (propNavigate) =>{
    // alert("Username or Password incorrect !"+this.state.username+"and"+this.state.password);
     

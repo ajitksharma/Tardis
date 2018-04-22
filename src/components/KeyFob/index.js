@@ -7,9 +7,15 @@ import {
   Image,
   StyleSheet,
   TouchableHighlight,
-  View
+  TouchableOpacity,
+  View,
+  Button
 } from 'react-native';
 import Loader from '../Util/Loader'
+import { StackNavigator , DrawerNavigator } from 'react-navigation';
+
+//import DrawerItem from '../Util/DrawerItem' 
+
 type Props = {};
 
 export default class KeyFob extends Component<Props> {
@@ -19,6 +25,17 @@ export default class KeyFob extends Component<Props> {
       loading: false,
     };
   }
+  static navigationOptions = ({ navigation }) => {
+    return{
+      headerTitle: "Main",
+      headerLeft: (
+        <TouchableOpacity onPress={() =>     navigation.navigate('DrawerOpen')}>
+              <Image style={{marginLeft: 10, padding:5, width: 25, height: 25}}  source={require('../Util/img/nav.png')} />
+        </TouchableOpacity>
+      ),  
+    }
+  };
+
   unlockPress = () => {
     this.setState({
       loading: true,
@@ -108,10 +125,21 @@ export default class KeyFob extends Component<Props> {
               style={styles.image}
               source={require('./img/unlock.png')} />
           </TouchableHighlight>
+          
       </View>
     );
   }
 }
+
+/* const Drawer = DrawerNavigator(
+  {
+    Main: { screen: KeyFob }
+  },
+  {
+    contentComponent: DrawerItem,
+    drawerWidth: 200
+  }
+); */
 
 const styles = StyleSheet.create({
   button: {

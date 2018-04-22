@@ -4,10 +4,11 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator , DrawerNavigator } from 'react-navigation';
 import Login from './components/Login/index';
 import KeyFob from './components/KeyFob/index';
-
+import DrawerItem from './components/Util/DrawerItem' 
+import Manual from './components/Manual/manual'
 type Props = {};
 
 
@@ -15,7 +16,7 @@ type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
-      <AppNavigator/>
+      <Drawer/>
     );
   }
 }
@@ -23,7 +24,20 @@ export default class App extends Component<Props> {
 const AppNavigator = StackNavigator({
   LoginScreen: { screen: Login },
   KeyFobScreen: { screen: KeyFob},
-},{headerMode: "none"});
+  ManualScreen: {screen: Manual},
+
+
+},);
+
+const Drawer = DrawerNavigator(
+  {
+    Main: { screen: AppNavigator }
+  },
+  {
+    contentComponent: DrawerItem,
+    drawerWidth: 200
+  }
+);
 
 const styles = StyleSheet.create({
   container: {
