@@ -10,6 +10,7 @@ import KeyFob from './components/KeyFob/index';
 import DrawerItem from './components/Util/DrawerItem' 
 import Manual from './components/Manual/manual'
 import DevicePage from './components/DeviceInfo/deviceInfo'
+import DatabasePage from './components/Database/database'
 type Props = {};
 
 
@@ -27,7 +28,7 @@ const AppNavigator = StackNavigator({
   KeyFobScreen: { screen: KeyFob},
   ManualScreen: {screen: Manual},
   DevicePageScreen: {screen: DevicePage},
-
+  DatabasePageScreen: {screen: DatabasePage},
 },);
 
 const Drawer = DrawerNavigator(

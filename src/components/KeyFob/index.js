@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Loader from '../Util/Loader'
 import { StackNavigator , DrawerNavigator } from 'react-navigation';
-
+import ProgressBar from 'react-native-progress/Bar';
 //import DrawerItem from '../Util/DrawerItem' 
 
 type Props = {};
@@ -23,6 +23,8 @@ export default class KeyFob extends Component<Props> {
     super(props);
     this.state = {
       loading: false,
+      isHidden: true,
+      progress: 0,
     };
   }
   static navigationOptions = ({ navigation }) => {
@@ -35,11 +37,26 @@ export default class KeyFob extends Component<Props> {
       ),  
     }
   };
-
+  animate() {
+    let progress = 0;
+    this.setState({ progress });
+      this.setState({ indeterminate: false });
+      setInterval(() => {
+        progress += Math.random() / 5;
+        if (progress > 1.2) {
+          progress = 0;
+        }
+        this.setState({ progress });
+      }, 500);
+  }
+  componentDidMount() {
+    this.animate();
+  }
   unlockPress = () => {
     this.setState({
       loading: true,
       processing : '',
+      isHidden: false,
     });
     var url = 'http://10.0.2.2:3000/keyfob';
     fetch(url, {
@@ -106,6 +123,8 @@ export default class KeyFob extends Component<Props> {
       <View style={styles.container}>
           <Loader
           loading={this.state.loading} />
+          {this.state.isHidden ? <ProgressBar progress={this.state.progress} width={200} /> : null}
+
           <TouchableHighlight
             style={styles.button}
             onPress={() => {}}

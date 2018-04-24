@@ -13,7 +13,8 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import Loader from '../Util/Loader'
-
+import PushNotification from 'react-native-push-notification';
+import PushController from '../Util/PushNotification'
 type Props = {};
 
 export default class Login extends Component<Props> {
@@ -48,6 +49,7 @@ export default class Login extends Component<Props> {
         this.setState({
           loading: false,
         });
+        this.sendNotification();
         propNavigate.navigation.navigate('KeyFobScreen');
        }
        else{
@@ -66,6 +68,11 @@ export default class Login extends Component<Props> {
     }
    // propNavigate.navigation.navigate('KeyFobScreen');
   }
+  sendNotification() {
+    PushNotification.localNotification({
+      message: 'Welcome '+ this.state.username+ ' !'
+    });
+  };
   render() {
     return (
       <View style={styles.container}>
