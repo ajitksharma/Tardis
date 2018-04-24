@@ -9,6 +9,7 @@ import Login from './components/Login/index';
 import KeyFob from './components/KeyFob/index';
 import DrawerItem from './components/Util/DrawerItem' 
 import Manual from './components/Manual/manual'
+import DevicePage from './components/DeviceInfo/deviceInfo'
 type Props = {};
 
 
@@ -25,7 +26,7 @@ const AppNavigator = StackNavigator({
   LoginScreen: { screen: Login },
   KeyFobScreen: { screen: KeyFob},
   ManualScreen: {screen: Manual},
-
+  DevicePageScreen: {screen: DevicePage},
 
 },);
 

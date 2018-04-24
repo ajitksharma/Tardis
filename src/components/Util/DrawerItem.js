@@ -38,6 +38,13 @@ class DrawerItem extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menuItem}
+          onPress={() =>
+            this._navigate("DevicePageScreen", { isStatusBarHidden: false })}
+        >
+          <Text style={styles.menuItemText}>DevicePage</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menuItem}
           onPress={() => this._navigate("LoginScreen", { isStatusBarHidden: false })}
         >
           <Text style={styles.menuItemText}>Logout</Text>
