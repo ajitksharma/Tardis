@@ -20,28 +20,19 @@ export default class DevicePage extends Component<Props> {
     }
 
     componentDidMount () {
-      const device = NativeModules.RNAndroidDeviceInfo;
-      console.log(JSON.stringify(device));
-
-        //console.log("Device Manufacturer", DeviceInfo.getBatteryLevel());  // e.g. Apple
-       
+      const device = NativeModules.RNAndroidDeviceInfo;       
         device.getDeviceInfo().then((deviceInfo) => {
           this.setState({
             firstParam: deviceInfo,
-          });
-         
-        })
-
-        
+          });    
+        })       
         device.getBatteryInfo().then((batteryInfo) => {
           this.setState({
             secondParam: batteryInfo,
           });         
         })        
       }
-    Capitalize(str){
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+   
     static navigationOptions = ({ navigation }) => {
         return{
           headerTitle: "Device Info",
@@ -69,48 +60,48 @@ export default class DevicePage extends Component<Props> {
           <View style={{flex:1, flexDirection: 'column', marginBottom: 15}} >
             <View style={{flexDirection: 'row',marginBottom: 10}}>
               <Text style={styles.leftTextViewContainer}>Device Type :</Text>
-              <Text style={styles.rightTextViewContainer} >{this.Capitalize(this.state.firstParam.deviceType)}</Text>
+              <Text style={styles.rightTextViewContainer} >{this.state.firstParam.deviceType}</Text>
             </View>
 
             <View style={{flexDirection: 'row', marginBottom: 10}}>
               <Text style={styles.leftTextViewContainer}>Build :</Text>
-              <Text style={styles.rightTextViewContainer} > {this.Capitalize(this.state.firstParam.buildBrand)}</Text>
+              <Text style={styles.rightTextViewContainer} > {this.state.firstParam.buildBrand}</Text>
             </View>
 
             <View style={{flexDirection: 'row', marginBottom: 10}}>
               <Text style={styles.leftTextViewContainer}>OS Version :</Text>
-              <Text style={styles.rightTextViewContainer} >{this.Capitalize(this.state.firstParam.osVersion)}</Text>
+              <Text style={styles.rightTextViewContainer} >{this.state.firstParam.osVersion}</Text>
             </View>
 
             <View style={{flexDirection: 'row', marginBottom: 10}}>
               <Text style={styles.leftTextViewContainer}> OS Name :</Text>
-              <Text style={styles.rightTextViewContainer} >{this.Capitalize(this.state.firstParam.osCodename)}</Text>
+              <Text style={styles.rightTextViewContainer} >{this.state.firstParam.osCodename}</Text>
             </View>
 
              <View style={{flexDirection: 'row', marginBottom: 10}}>
               <Text style={styles.leftTextViewContainer}> Device :</Text>
-              <Text style={styles.rightTextViewContainer} >{this.Capitalize(this.state.firstParam.device)}</Text>
+              <Text style={styles.rightTextViewContainer} >{this.state.firstParam.device}</Text>
             </View>
 
             <View style={{flexDirection: 'row', marginBottom: 10}}>
               <Text style={styles.leftTextViewContainer}> Model :</Text>
-              <Text style={styles.rightTextViewContainer} >{this.Capitalize(this.state.firstParam.model)}</Text>
+              <Text style={styles.rightTextViewContainer} >{this.state.firstParam.model}</Text>
             </View>
             <View style={{flexDirection: 'row', marginBottom: 10}}>
               <Text style={styles.leftTextViewContainer}> PhoneType :</Text>
-              <Text style={styles.rightTextViewContainer} >{this.Capitalize(this.state.firstParam.phoneType)}</Text>
+              <Text style={styles.rightTextViewContainer} >{this.state.firstParam.phoneType}</Text>
             </View>
             <View style={{flexDirection: 'row', marginBottom: 10}}>
               <Text style={styles.leftTextViewContainer}> Orientation :</Text>
-              <Text style={styles.rightTextViewContainer} >{this.Capitalize(this.state.firstParam.orientation)}</Text>
+              <Text style={styles.rightTextViewContainer} >{this.state.firstParam.orientation}</Text>
             </View>
             <View style={{flexDirection: 'row', marginBottom: 10}}>
               <Text style={styles.leftTextViewContainer}> Battery :</Text>
-              <Text style={styles.rightTextViewContainer} >{this.Capitalize(this.state.secondParam.batteryHealth)}</Text>
+              <Text style={styles.rightTextViewContainer} >{this.state.secondParam.batteryHealth}</Text>
             </View>
             <View style={{flexDirection: 'row', marginBottom: 10}}>
-              <Text style={styles.leftTextViewContainer}> Device :</Text>
-              <Text style={styles.rightTextViewContainer} >{this.Capitalize(this.state.secondParam.batteryPercentage)}</Text>
+              <Text style={styles.leftTextViewContainer}> Battery Percentage :</Text>
+              <Text style={styles.rightTextViewContainer} >{this.state.secondParam.batteryPercentage}</Text>
             </View>
 
 
