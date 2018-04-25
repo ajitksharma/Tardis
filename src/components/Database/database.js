@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     Image,
     StyleSheet,
+    ListView,
   } from 'react-native';
 import SQLite from 'react-native-sqlite-2';
 export default class DatabasePage extends Component<Props> {
@@ -13,40 +14,49 @@ export default class DatabasePage extends Component<Props> {
       this.state = {
          resultSet: [],
       };
-      this.resultSet =[];
+      this.ds=new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     }
     componentDidMount() {
-      console.log(this.methodCall());
-       }   
+      this.methodCall();
+       }
     methodCall = () =>
     {
         const db = SQLite.openDatabase('demoDatabase.db', '1.0', '', 1);
         //  const db=SQLite.openDatabase({name : "demoDatabase.db", createFromLocation : 1}, okCallback,errorCallback);
-           // var resultSet1=[];
-             db.transaction(function (txn) {
+        var _this=this;
+
+          var resultSetLocal=[];
+             return db.transaction(function (txn) {
                 txn.executeSql('DROP TABLE IF EXISTS demoDatabase', []);
-                txn.executeSql('CREATE TABLE IF NOT EXISTS demoDatabase(name TEXT)', []); 
-               txn.executeSql('INSERT INTO demoDatabase (name) VALUES (:name)', ['ajit']);
-                txn.executeSql('INSERT INTO demoDatabase (name) VALUES (:name)', ['ram']); 
+                txn.executeSql('CREATE TABLE IF NOT EXISTS demoDatabase(name TEXT)', []);
+                txn.executeSql('INSERT INTO demoDatabase (name) VALUES (:name)', ['Niklaus Hunt']);
+                txn.executeSql('INSERT INTO demoDatabase (name) VALUES (:name)', ['Rajeev Singh']);
+                txn.executeSql('INSERT INTO demoDatabase (name) VALUES (:name)', ['Ian Nunley']);
+
                 txn.executeSql('SELECT * FROM demoDatabase', [], function (tx, res) {
                    for (let i = 0; i < res.rows.length; ++i) {
-                    console.log('item:'+ JSON.stringify(res.rows));
-                  } 
-                  console.log("result"+res.rows);
-                 this.resultSet=res.rows;
-    
+                    _this.setState({
+                      resultSet: res.rows,
+                     });
+                  }
 
+                 return resultSetLocal;
                 });
-                
+
              });
-             this.setState({
-                resultSet: this.resultSet
-             })
-            return this.resultSet;
+
+           // return resultSetLocal;
     }
     static navigationOptions = ({ navigation }) => {
         return{
           headerTitle: "Database Page",
+          headerStyle: {
+            backgroundColor: '#193370',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
           headerLeft: (
             <TouchableOpacity onPress={() =>     navigation.navigate('DrawerOpen')}>
                   <Image style={{marginLeft: 10, padding:5, width: 25, height: 25}}  source={require('../Util/img/nav.png')} />
@@ -54,19 +64,56 @@ export default class DatabasePage extends Component<Props> {
           ),
         }
     }
+    ListViewItemSeparator = () => {
+      return (
+        <View
+          style={{
 
+            height: .5,
+            width: "100%",
+            backgroundColor: "#000",
+
+          }}
+        />
+      );
+    }
     render () {
-        console.log("this"+this.state.resultSet);
-        const d='[{"name":"ajit"},{"name":"ram"}]';
+        const rows = this.ds.cloneWithRows(this.state.resultSet["_array"] || []);
         return (
-            <View >
-
-            <Text >This is Database page</Text>
-            {d.name.map((Q, index) => (
-        <Text key={index}>Hello, {Q.name}</Text>
-    ))}
-            </View>
+          <View style={{padding: 5}}>
+            <ListView style ={{padding: 50}}
+                dataSource = {rows}
+                renderSeparator= {this.ListViewItemSeparator}
+                enableEmptySections
+                renderRow={(rowData) =>
+                    <Text style={ styles.textViewContainer}> {rowData["name"]}</Text>
+                }
+                />
+          </View>
         )
     }
 
 }
+
+const styles = StyleSheet.create({
+
+  MainContainer :{
+
+  // Setting up View inside content in Vertically center.
+  justifyContent: 'center',
+  flex:1,
+  backgroundColor: '#fafafa',
+  padding: 5,
+
+  },
+
+  textViewContainer: {
+
+   textAlignVertical:'center',
+  // padding:10,
+   fontSize: 20,
+   color: '#000',
+
+  }
+
+  });

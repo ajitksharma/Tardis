@@ -64,16 +64,17 @@ class DrawerItem extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 100
+    paddingTop: 100,
+    backgroundColor: "#193370",
   },
   menuItem: {
     padding: 10,
     justifyContent: "center",
-    backgroundColor: "rgba(12, 12, 12, 0.2)",
     marginBottom: 2
   },
   menuItemText: {
-    fontSize: 20
+    fontSize: 20,
+    color: "#ffffff",
   }
 });
 

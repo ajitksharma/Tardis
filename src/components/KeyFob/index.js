@@ -23,13 +23,20 @@ export default class KeyFob extends Component<Props> {
     super(props);
     this.state = {
       loading: false,
-      isHidden: true,
+      isHidden: false,
       progress: 0,
     };
   }
   static navigationOptions = ({ navigation }) => {
     return{
-      headerTitle: "Main",
+      headerTitle: "Home",
+      headerStyle: {
+        backgroundColor: '#193370',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
       headerLeft: (
         <TouchableOpacity onPress={() =>     navigation.navigate('DrawerOpen')}>
               <Image style={{marginLeft: 10, padding:5, width: 25, height: 25}}  source={require('../Util/img/nav.png')} />
@@ -52,11 +59,11 @@ export default class KeyFob extends Component<Props> {
   componentDidMount() {
     this.animate();
   }
-  unlockPress = () => {
+  unlockPress = (lockType) => {
     this.setState({
       loading: true,
       processing : '',
-      isHidden: false,
+      isHidden: true,
     });
     var url = 'http://10.0.2.2:3000/keyfob';
     fetch(url, {
@@ -65,20 +72,19 @@ export default class KeyFob extends Component<Props> {
         'Content-Type': 'application/json',
         'authorization': 'access_token',
       },
-      body: "{type:'LOCK'}",
+      body: "{type:"+lockType+"}",
     }).then((response) => {
         this.setState({
           loading: false,
         });
        if(response.status){
-        
         this.setState({
-          processing: setInterval(this.pollStatusLock, 5000)
+          processing: setInterval(this.pollStatusLock, 5000),
+          isHidden: true,
         });
 
-        //   clearInterval(this.state.intervalId);
-        //propNavigate.navigation.navigate('KeyFobScreen');
        }
+
        else{
          alert("Something went wrong !");
        }
@@ -86,6 +92,7 @@ export default class KeyFob extends Component<Props> {
       .catch((error) => {
         this.setState({
           loading: false,
+          isHidden: false,         
         });
         alert("Server Error !"+error);
       }); 
@@ -103,11 +110,12 @@ export default class KeyFob extends Component<Props> {
     }).then(response => response.json()).
       then((response) => {  
        if(response.status == 'in_progress' ){
-         //clearInterval(this.state.intervalId);
-        //propNavigate.navigation.navigate('KeyFobScreen');
        }
        else if(response.status == 'completed') {
         clearInterval(this.state.processing);
+        this.setState({
+          isHidden: false,         
+        });
        }
        else{
          console.log("Something went wrong !");
@@ -123,11 +131,11 @@ export default class KeyFob extends Component<Props> {
       <View style={styles.container}>
           <Loader
           loading={this.state.loading} />
-          {this.state.isHidden ? <ProgressBar progress={this.state.progress} width={200} /> : null}
+          {this.state.isHidden ? <ProgressBar style= {styles.prog} progress={this.state.progress} width={200} color={"#193370"}/> : null}
 
           <TouchableHighlight
             style={styles.button}
-            onPress={() => {}}
+            onPress={() => {this.unlockPress("lock")}}
             disabled={false}
             underlayColor={'#b9ccee'}>
             <Image
@@ -137,7 +145,7 @@ export default class KeyFob extends Component<Props> {
           <View style={{ height: 88 }} />
           <TouchableHighlight
             style={styles.button}
-            onPress={() => {this.unlockPress()}}
+            onPress={() => {this.unlockPress("unlock")}}
             disabled={false}
             underlayColor={'#b9ccee'}>
             <Image
@@ -180,5 +188,8 @@ const styles = StyleSheet.create({
   },
   image: {
     tintColor: '#5e81bc'
+  },
+  prog: {
+    marginBottom: 50,
   }
 });

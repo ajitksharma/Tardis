@@ -17,6 +17,7 @@ type Props = {};
 
 export default class App extends Component<Props> {
   render() {
+    console.disableYellowBox = true;
     return (
       <Drawer/>
     );

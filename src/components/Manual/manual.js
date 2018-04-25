@@ -70,6 +70,13 @@ export default class Manual extends Component<Props> {
     static navigationOptions = ({ navigation }) => {
         return{
           headerTitle: "Manual",
+          headerStyle: {
+            backgroundColor: '#193370',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
           headerLeft: (
             <TouchableOpacity onPress={() =>     navigation.navigate('DrawerOpen')}>
                   <Image style={{marginLeft: 10, padding:5, width: 25, height: 25}}  source={require('../Util/img/nav.png')} />
@@ -90,12 +97,12 @@ export default class Manual extends Component<Props> {
                 enableEmptySections
                 renderRow={(rowData) =>
 
-                <View style={{flex:1, flexDirection: 'column'}} >
-                  <View style={{flexDirection: 'row'}}>
-                    <Image style={{width: 30, height: 30}} source={{uri: "http://10.0.2.2:3000/manual/"+rowData.image}}/>
+                <View style={{flex:1, flexDirection: 'column', marginBottom: 10}} >
+                  <View style={{flexDirection: 'row', marginTop: 5, marginBottom: 5,}}>
+                    <Image style={{width: 25, height: 25}} source={{uri: "http://10.0.2.2:3000/manual/"+rowData.image}}/>
                     <Text style={styles.textViewContainer} >{rowData.title}</Text>
                   </View>
-                  <Text>{rowData.description}</Text>
+                  <Text >{rowData.description}</Text>
 
                 </View>
 
@@ -114,13 +121,12 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor: '#fafafa',
     padding: 5,
-
     },
 
     textViewContainer: {
-
      textAlignVertical:'center',
     // padding:10,
+     marginLeft: 5,
      fontSize: 20,
      color: '#000',
 
